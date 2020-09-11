@@ -1,25 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { lazy, Suspense } from 'react';
+import { Route, Router } from 'react-router-dom';
+import * as routes from '@routes';
+import { ThemeProvider, theme, CSSReset } from '@chakra-ui/core';
+import history from './browserHistory';
+
+const HomePage = lazy(() =>
+  import(/* webpackChunkName: "HomePage" */ '@pages/Home'),
+);
 
 const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CSSReset />
+      <Router history={history}>
+        <Suspense fallback={<div></div>}>
+          <Route path={routes.HOME} exact>
+            <HomePage />
+          </Route>
+        </Suspense>
+      </Router>
+    </ThemeProvider>
   );
 };
 

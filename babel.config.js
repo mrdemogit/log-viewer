@@ -7,18 +7,13 @@ module.exports = {
     '@babel/plugin-syntax-export-default-from',
     'babel-plugin-styled-components',
     [
-      'react-intl',
-      {
-        messagesDir: './build/messages/',
-      },
-    ],
-    [
       'module-resolver',
       {
         root: ['./src'],
         alias: {
           '@api': './src/api',
           '@pages': './src/pages',
+          '@routes': './src/routes',
         },
       },
     ],
