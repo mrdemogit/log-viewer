@@ -1,18 +1,10 @@
 module.exports = {
-  root: true,
-  parser: '@typescript-eslint/parser',
-  extends: [
-    'react-app',
-    'eslint:recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-  ],
-  plugins: ['@typescript-eslint'],
+  extends: 'react-app',
   ignorePatterns: ['build/*'],
   rules: {
-    'react/prop-types': 'warn',
-    'react/forbid-prop-types': 'warn',
-    'react/no-unused-prop-types': 'warn',
+    'react/prop-types': 'error',
+    'react/forbid-prop-types': 'error',
+    'react/no-unused-prop-types': 'error',
     'jsx-a11y/anchor-is-valid': [
       'error',
       {
