@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchAllSimulations } from '@api';
 
-const transformData = ({ simulationRuns, scenarios }) => {
+const normalizeData = ({ simulationRuns, scenarios }) => {
   const scenariosById = scenarios.reduce(
     (acc, item) => ({ ...acc, [item.scenarioId]: item }),
     {},
@@ -38,7 +38,7 @@ const useSimulations = () => {
     const fetchData = async () => {
       try {
         const response = await fetchAllSimulations();
-        const data = transformData(response);
+        const data = normalizeData(response);
         setData({ data, isLoading: false });
       } catch (e) {
         setData({ error: e, isLoading: false });

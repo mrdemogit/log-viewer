@@ -10,11 +10,11 @@ const FilterInput = ({ name, onChange }) => {
 
   return (
     <Input
+      data-testid={`filter_${name}`}
       name={name}
       size="sm"
       onChange={(e) => {
         const value = e.target.value;
-        console.log('FORE');
         debouncedCallback(value);
       }}
     />

@@ -1,4 +1,6 @@
 import dataSource from './mock';
 
 export const fetchAllSimulations = async () =>
-  Promise.resolve(dataSource.generate());
+  new Promise((resolve) =>
+    setTimeout(() => resolve(dataSource.generate()), 2000),
+  );

@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/core';
+import { Box, Flex, Spinner, Text } from '@chakra-ui/core';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import FilterInput from './FilterInput';
@@ -11,11 +11,18 @@ const filterStringPredicate = (filters) => (data) => {
   });
 };
 
-const DataTable = ({ data, rowKey = 'id', columns = [], customRowStyle }) => {
+const DataTable = ({
+  data,
+  isLoading,
+  rowKey = 'id',
+  columns = [],
+  customRowStyle,
+}) => {
   const [filters, setFilters] = useState({});
 
   const filteredData = data?.filter(filterStringPredicate(filters));
 
+  const isEmptyTable = !isLoading && !filteredData?.length;
   return (
     <Box minWidth="800px">
       <Flex p={1}>
@@ -40,7 +47,13 @@ const DataTable = ({ data, rowKey = 'id', columns = [], customRowStyle }) => {
           </Box>
         ))}
       </Flex>
-      {!filteredData?.length && (
+
+      {isLoading && (
+        <Flex justifyContent="center" alignItems="center">
+          <Spinner data-testid="spinner" size="xl" />
+        </Flex>
+      )}
+      {isEmptyTable && (
         <Flex justifyContent="center" alignItems="center">
           <Text>Data not found</Text>
         </Flex>
@@ -48,11 +61,10 @@ const DataTable = ({ data, rowKey = 'id', columns = [], customRowStyle }) => {
       {filteredData?.map((row) => {
         return (
           <DataTableRow
-            key={row.startTime}
+            key={row[rowKey]}
             row={row}
             columns={columns}
             customRowStyle={customRowStyle}
-            rowKey={rowKey}
           />
         );
       })}
@@ -72,6 +84,7 @@ DataTable.propTypes = {
     }),
   ),
   data: PropTypes.arrayOf(PropTypes.shape({})),
+  isLoading: PropTypes.bool,
 };
 
 export default DataTable;

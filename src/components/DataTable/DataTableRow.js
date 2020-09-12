@@ -2,11 +2,10 @@ import { Box, Flex, PseudoBox } from '@chakra-ui/core';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DataTableRow = ({ row, rowKey, customRowStyle, columns }) => {
+const DataTableRow = ({ row, customRowStyle, columns }) => {
   return (
     <PseudoBox
       as={Flex}
-      key={row[rowKey]}
       bg="white"
       p={1}
       my={1}

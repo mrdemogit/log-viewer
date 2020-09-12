@@ -25,6 +25,7 @@
     "@babel/plugin-syntax-export-default-from": "^7.8.3",
     "@rescripts/cli": "^0.0.13",
     "@rescripts/rescript-env": "^0.0.11",
+    "@testing-library/react-hooks": "^3.4.1",
     "audit-ci": "^3.1.1",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-styled-components": "^1.11.1",
@@ -39,12 +40,13 @@
     "husky": "^4.3.0",
     "lint-staged": "^10.3.0",
     "prettier": "^2.1.1",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "react-test-renderer": "^16.13.1"
   },
   "scripts": {
     "start": "rescripts start",
     "build": "rescripts build",
-    "test": "rescripts test --watchAll=false",
+    "test": "rescripts test --coverage --watchAll=false",
     "audit-packages": "audit-ci --config audit-ci.json"
   },
   "rescripts": [
@@ -90,8 +92,25 @@
     }
   },
   "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90
+      }
+    },
+    "collectCoverageFrom": [
+      "src/components/**/*.js",
+      "src/queries/**/*.js"
+    ],
     "moduleNameMapper": {
-      "@pages(.*)": "<rootDir>/src/pages$1"
+      "@pages(.*)": "<rootDir>/src/pages$1",
+      "@routes": "<rootDir>/src/routes.js",
+      "@layouts": "<rootDir>/src/layouts/index.js",
+      "@components(.*)": "<rootDir>/src/components$1",
+      "@api": "<rootDir>/src/api/index.js",
+      "@queries": "<rootDir>/src/queries/index.js",
+      "@testUtils": "<rootDir>/src/testUtils.js"
     }
   }
 }

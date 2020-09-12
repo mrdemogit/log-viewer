@@ -12,7 +12,7 @@ module.exports = {
         root: ['./src'],
         alias: {
           '@api': './src/api',
-          '@common': './src/components/common',
+          '@components': './src/components',
           '@layouts': './src/layouts',
           '@pages': './src/pages',
           '@queries': './src/queries',

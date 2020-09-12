@@ -1,8 +1,8 @@
 import { Box, Heading } from '@chakra-ui/core';
 import React from 'react';
-import { DataTable } from '@common';
+import { DataTable } from '@components';
 import { format as formatDate } from 'date-fns';
-import useSimulations from '../../queries/useSimulations';
+import { useSimulations } from '@queries';
 import { msToTime } from './utils';
 
 const columns = [
