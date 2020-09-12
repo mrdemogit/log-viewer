@@ -3,12 +3,24 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import FilterInput from './FilterInput';
 import DataTableRow from './DataTableRow';
+import DataTableLabel, { sortDirections } from './DataTableLabel';
+import { sort, identity, descend, ascend, prop } from 'ramda';
 
 const filterStringPredicate = (filters) => (data) => {
   return Object.keys(filters).every((filterKey) => {
     const filterValue = filters[filterKey];
     return data[filterKey].toLowerCase().includes(filterValue.trim());
   });
+};
+
+const sortByPropCaseInsensitive = (key, direction) => {
+  if (direction === sortDirections.DESC) {
+    return sort(descend(prop(key)));
+  }
+  if (direction === sortDirections.ASC) {
+    return sort(ascend(prop(key)));
+  }
+  return identity;
 };
 
 const DataTable = ({
@@ -19,23 +31,36 @@ const DataTable = ({
   customRowStyle,
 }) => {
   const [filters, setFilters] = useState({});
+  const [sortDirection, setSortDirection] = useState(null);
 
   const filteredData = data?.filter(filterStringPredicate(filters));
+  const sortedData = sortDirection
+    ? sortByPropCaseInsensitive(
+        sortDirection.key,
+        sortDirection.value,
+      )(filteredData)
+    : filteredData;
 
   const isEmptyTable = !isLoading && !filteredData?.length;
+
   return (
     <Box minWidth="800px">
       <Flex p={1}>
         {columns.map(({ label, key, filter, flex = 1 }) => (
           <Box px={1} key={label} flex={flex}>
-            <Text
-              fontSize="10px"
-              textTransform="uppercase"
-              fontWeight="bold"
-              color="gray.800"
+            <DataTableLabel
+              sortDirection={
+                sortDirection?.key === key ? sortDirection.value : null
+              }
+              {...(isLoading
+                ? {}
+                : {
+                    onClick: (value) =>
+                      setSortDirection(value ? { key, value } : null),
+                  })}
             >
               {label}
-            </Text>
+            </DataTableLabel>
             {filter && (
               <FilterInput
                 onChange={(filter) =>
@@ -58,7 +83,7 @@ const DataTable = ({
           <Text>Data not found</Text>
         </Flex>
       )}
-      {filteredData?.map((row) => {
+      {sortedData?.map((row) => {
         return (
           <DataTableRow
             key={row[rowKey]}

@@ -13,6 +13,7 @@ const FilterInput = ({ name, onChange }) => {
       data-testid={`filter_${name}`}
       name={name}
       size="sm"
+      type="text"
       onChange={(e) => {
         const value = e.target.value;
         debouncedCallback(value);
