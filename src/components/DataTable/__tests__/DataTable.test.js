@@ -7,7 +7,6 @@ import {
 import { render } from '@testUtils';
 import userEvent from '@testing-library/user-event';
 import DataTable from '../DataTable';
-import { theme, ThemeProvider } from '@chakra-ui/core';
 
 describe('DataTable.js', () => {
   it('Render empty', async () => {
@@ -81,24 +80,22 @@ describe('DataTable.js', () => {
 
   it('Change sorting in columns', async () => {
     const { getAllByText, getByText } = render(
-      <ThemeProvider theme={theme}>
-        <DataTable
-          rowKey="col1"
-          data={[
-            { col1: 'value1', col2: 'b' },
-            { col1: 'test1', col2: 'c' },
-            { col1: 'value3', col2: 'a' },
-          ]}
-          columns={[
-            { label: 'Column1', key: 'col1', filter: true },
-            {
-              label: 'Column2',
-              key: 'col2',
-              format: ({ col2 }) => col2 + 'extension',
-            },
-          ]}
-        />
-      </ThemeProvider>,
+      <DataTable
+        rowKey="col1"
+        data={[
+          { col1: 'value1', col2: 'b' },
+          { col1: 'test1', col2: 'c' },
+          { col1: 'value3', col2: 'a' },
+        ]}
+        columns={[
+          { label: 'Column1', key: 'col1', filter: true },
+          {
+            label: 'Column2',
+            key: 'col2',
+            format: ({ col2 }) => col2 + 'extension',
+          },
+        ]}
+      />,
     );
 
     const orderedRows = getAllByText(/extension/i);
@@ -136,25 +133,23 @@ describe('DataTable.js', () => {
 
   it('Change pagination - click on numbers', async () => {
     const { getAllByText, getByText } = render(
-      <ThemeProvider theme={theme}>
-        <DataTable
-          rowKey="col1"
-          rowsPerPage={2}
-          data={[
-            { col1: 'value1', col2: 'b' },
-            { col1: 'test1', col2: 'c' },
-            { col1: 'value3', col2: 'a' },
-          ]}
-          columns={[
-            { label: 'Column1', key: 'col1', filter: true },
-            {
-              label: 'Column2',
-              key: 'col2',
-              format: ({ col2 }) => col2 + 'extension',
-            },
-          ]}
-        />
-      </ThemeProvider>,
+      <DataTable
+        rowKey="col1"
+        rowsPerPage={2}
+        data={[
+          { col1: 'value1', col2: 'b' },
+          { col1: 'test1', col2: 'c' },
+          { col1: 'value3', col2: 'a' },
+        ]}
+        columns={[
+          { label: 'Column1', key: 'col1', filter: true },
+          {
+            label: 'Column2',
+            key: 'col2',
+            format: ({ col2 }) => col2 + 'extension',
+          },
+        ]}
+      />,
     );
 
     const orderedRows = getAllByText(/extension/i);
@@ -173,25 +168,23 @@ describe('DataTable.js', () => {
 
   it('Change pagination - click on arrow', async () => {
     const { getByTestId, getByText, getAllByText } = render(
-      <ThemeProvider theme={theme}>
-        <DataTable
-          rowKey="col1"
-          rowsPerPage={2}
-          data={[
-            { col1: 'value1', col2: 'b' },
-            { col1: 'test1', col2: 'c' },
-            { col1: 'value3', col2: 'a' },
-          ]}
-          columns={[
-            { label: 'Column1', key: 'col1', filter: true },
-            {
-              label: 'Column2',
-              key: 'col2',
-              format: ({ col2 }) => col2 + 'extension',
-            },
-          ]}
-        />
-      </ThemeProvider>,
+      <DataTable
+        rowKey="col1"
+        rowsPerPage={2}
+        data={[
+          { col1: 'value1', col2: 'b' },
+          { col1: 'test1', col2: 'c' },
+          { col1: 'value3', col2: 'a' },
+        ]}
+        columns={[
+          { label: 'Column1', key: 'col1', filter: true },
+          {
+            label: 'Column2',
+            key: 'col2',
+            format: ({ col2 }) => col2 + 'extension',
+          },
+        ]}
+      />,
     );
 
     const orderedRows = getAllByText(/extension/i);
