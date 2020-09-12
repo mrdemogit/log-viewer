@@ -36,7 +36,7 @@ describe('DataTablePagination.js', () => {
   });
 
   it('Render current 18 with more than 10 pages', async () => {
-    const { getByText, getAllByText } = render(
+    const { getByText } = render(
       <DataTablePagination currentPage={18} pagesNo={20} />,
     );
 

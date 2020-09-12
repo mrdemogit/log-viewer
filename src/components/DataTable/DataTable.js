@@ -101,7 +101,7 @@ const DataTable = ({
   const isEmptyTable = !isLoading && !filteredData?.length;
 
   return (
-    <Box minWidth="800px">
+    <Box>
       <Flex p={1}>
         {columns.map(({ label, key, filter, flex = 1 }) => (
           <Box px={1} key={label} flex={flex}>
