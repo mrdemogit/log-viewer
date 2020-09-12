@@ -4,6 +4,27 @@ import { identity } from 'ramda';
 
 const { Flex, Icon, Box, Text } = require('@chakra-ui/core');
 
+const generatePaginationElements = (currentPage, pagesNo) => {
+  if (currentPage - 5 < 0) {
+    return [...Array.from({ length: 6 }, (_, i) => i + 1), '...', pagesNo];
+  }
+  if (currentPage + 4 > pagesNo) {
+    const start = pagesNo - 5;
+    return [1, '...', ...Array.from({ length: 6 }, (_, i) => i + start)];
+  }
+  return [
+    1,
+    '...',
+    currentPage - 2,
+    currentPage - 1,
+    currentPage,
+    currentPage + 1,
+    currentPage + 2,
+    '...',
+    pagesNo,
+  ];
+};
+
 const DataTablePagination = ({ currentPage, pagesNo, onChangePage }) => (
   <Flex
     alignItems="center"
@@ -22,10 +43,13 @@ const DataTablePagination = ({ currentPage, pagesNo, onChangePage }) => (
         }
       />
     }
-    {Array.from({ length: pagesNo }, (_, idx) => {
-      const pageNo = idx + 1;
+    {generatePaginationElements(currentPage, pagesNo).map((pageNo, idx) => {
       return (
-        <Box key={pageNo} p={2} onClick={() => onChangePage(pageNo)}>
+        <Box
+          key={pageNo + idx}
+          p={2}
+          onClick={pageNo !== '...' ? () => onChangePage(pageNo) : identity}
+        >
           <Text
             color={currentPage === pageNo && 'cyan.600'}
             fontSize="lg"

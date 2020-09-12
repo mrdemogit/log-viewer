@@ -1,6 +1,6 @@
 // Simulate API
 const defaultConfig = {
-  simulationsCount: 90,
+  simulationsCount: 1000,
   carBuildsCount: 20,
   scenariosCount: 150,
   maxNumberOfStops: 100,
@@ -76,7 +76,7 @@ const generateScenarios = ({ count, maxNumberOfStops, maxRunningMs }) => {
   for (let i = 0; i < count; i++) {
     scenarios.push({
       scenarioId: `scenario_${i}`,
-      maxNumberOfStops: getRandomNumber(0, maxNumberOfStops),
+      maxNumberOfStops: getRandomNumber(maxNumberOfStops / 2, maxNumberOfStops),
       maxRunningTime: getRandomNumber(TEN_MINUTES, maxRunningMs),
     });
   }
@@ -102,14 +102,14 @@ const createSimulation = ({
     carBuild: carBuilds[getRandomNumber(0, carBuilds.length - 1)],
     result: {
       numberOfStops: getRandomNumber(0, maxNumberOfStops),
-      hasCollision: getRandomNumber(0, 1) === 0,
+      hasCollision: getRandomNumber(0, 10) > 9,
     },
   };
 };
 
 const getRandomStartEndTimestamp = ({ earliestDate, maxRunningMs }) => {
   const startTime = getRandomDate(earliestDate, new Date()).getTime();
-  const endTime = getRandomNumber(startTime, startTime + maxRunningMs * 2);
+  const endTime = getRandomNumber(startTime, startTime + maxRunningMs * 1.2);
   return { startTime, endTime };
 };
 
