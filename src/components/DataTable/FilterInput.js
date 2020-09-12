@@ -6,7 +6,7 @@ import { useDebouncedCallback } from 'use-debounce';
 const FilterInput = ({ name, onChange }) => {
   const [debouncedCallback] = useDebouncedCallback((filterDebounce) => {
     onChange({ [name]: filterDebounce });
-  }, 1000);
+  }, 500);
 
   return (
     <Input

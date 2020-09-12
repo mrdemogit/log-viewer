@@ -17,6 +17,7 @@ module.exports = {
           '@pages': './src/pages',
           '@queries': './src/queries',
           '@routes': './src/routes',
+          '@testUtils': './src/testUtils',
         },
       },
     ],

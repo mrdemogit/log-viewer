@@ -1,6 +1,6 @@
 // Simulate API
 const defaultConfig = {
-  simulationsCount: 400,
+  simulationsCount: 90,
   carBuildsCount: 20,
   scenariosCount: 150,
   maxNumberOfStops: 100,

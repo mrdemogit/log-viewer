@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  render,
   fireEvent,
   waitForElementToBeRemoved,
   act,
 } from '@testing-library/react';
+import { render } from '@testUtils';
 import userEvent from '@testing-library/user-event';
 import DataTable from '../DataTable';
 import { theme, ThemeProvider } from '@chakra-ui/core';
@@ -101,36 +101,73 @@ describe('DataTable.js', () => {
       </ThemeProvider>,
     );
 
-    const orderedCells = getAllByText(/extension/i);
-    expect(orderedCells[0]).toHaveTextContent('bextension');
-    expect(orderedCells[1]).toHaveTextContent('cextension');
-    expect(orderedCells[2]).toHaveTextContent('aextension');
+    const orderedRows = getAllByText(/extension/i);
+    expect(orderedRows[0]).toHaveTextContent('bextension');
+    expect(orderedRows[1]).toHaveTextContent('cextension');
+    expect(orderedRows[2]).toHaveTextContent('aextension');
 
     act(() => {
       userEvent.click(getByText('Column1'));
     });
 
-    const orderedCells2 = getAllByText(/extension/i);
-    expect(orderedCells2[0]).toHaveTextContent('cextension');
-    expect(orderedCells2[1]).toHaveTextContent('bextension');
-    expect(orderedCells2[2]).toHaveTextContent('aextension');
+    const orderedRows2 = getAllByText(/extension/i);
+    expect(orderedRows2[0]).toHaveTextContent('cextension');
+    expect(orderedRows2[1]).toHaveTextContent('bextension');
+    expect(orderedRows2[2]).toHaveTextContent('aextension');
 
     act(() => {
       userEvent.click(getByText('Column1'));
     });
 
-    const orderedCells3 = getAllByText(/extension/i);
-    expect(orderedCells3[0]).toHaveTextContent('aextension');
-    expect(orderedCells3[1]).toHaveTextContent('bextension');
-    expect(orderedCells3[2]).toHaveTextContent('cextension');
+    const orderedRows3 = getAllByText(/extension/i);
+    expect(orderedRows3[0]).toHaveTextContent('aextension');
+    expect(orderedRows3[1]).toHaveTextContent('bextension');
+    expect(orderedRows3[2]).toHaveTextContent('cextension');
 
     act(() => {
       userEvent.click(getByText('Column1'));
     });
 
-    const orderedCells4 = getAllByText(/extension/i);
-    expect(orderedCells4[0]).toHaveTextContent('bextension');
-    expect(orderedCells4[1]).toHaveTextContent('cextension');
-    expect(orderedCells4[2]).toHaveTextContent('aextension');
+    const orderedRows4 = getAllByText(/extension/i);
+    expect(orderedRows4[0]).toHaveTextContent('bextension');
+    expect(orderedRows4[1]).toHaveTextContent('cextension');
+    expect(orderedRows4[2]).toHaveTextContent('aextension');
+  });
+
+  it('Change pagination', async () => {
+    const { getAllByText, getByText } = render(
+      <ThemeProvider theme={theme}>
+        <DataTable
+          rowKey="col1"
+          rowsPerPage={2}
+          data={[
+            { col1: 'value1', col2: 'b' },
+            { col1: 'test1', col2: 'c' },
+            { col1: 'value3', col2: 'a' },
+          ]}
+          columns={[
+            { label: 'Column1', key: 'col1', filter: true },
+            {
+              label: 'Column2',
+              key: 'col2',
+              format: ({ col2 }) => col2 + 'extension',
+            },
+          ]}
+        />
+      </ThemeProvider>,
+    );
+
+    const orderedRows = getAllByText(/extension/i);
+
+    expect(orderedRows).toHaveLength(2);
+    expect(getByText('1')).toBeInTheDocument();
+    expect(getByText('2')).toBeInTheDocument();
+
+    act(() => {
+      userEvent.click(getByText('2'));
+    });
+
+    const orderedRows2 = getAllByText(/extension/i);
+    expect(orderedRows2).toHaveLength(1);
   });
 });

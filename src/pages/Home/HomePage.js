@@ -1,4 +1,4 @@
-import { Box, Heading } from '@chakra-ui/core';
+import { Box, Heading, Icon } from '@chakra-ui/core';
 import React from 'react';
 import { DataTable } from '@components';
 import { format as formatDate } from 'date-fns';
@@ -44,7 +44,12 @@ const columns = [
   {
     key: 'doesScenarioPass',
     label: 'Does Scenario Pass',
-    format: ({ doesScenarioPass }) => (doesScenarioPass ? 'yes' : 'no'),
+    format: ({ doesScenarioPass }) =>
+      doesScenarioPass ? (
+        <Icon size={5} name="check" color="green.500" />
+      ) : (
+        <Icon size={5} name="small-close" color="red.500" />
+      ),
   },
 ];
 

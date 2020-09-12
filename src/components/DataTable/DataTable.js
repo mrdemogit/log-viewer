@@ -1,10 +1,11 @@
-import { Box, Flex, Spinner, Text } from '@chakra-ui/core';
 import React, { useState } from 'react';
+import { Box, Flex, Icon, Spinner, Text } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
 import FilterInput from './FilterInput';
 import DataTableRow from './DataTableRow';
 import DataTableLabel, { sortDirections } from './DataTableLabel';
 import { sort, identity, descend, ascend, prop } from 'ramda';
+import DataTablePagination from './DataTablePagination';
 
 const filterStringPredicate = (filters) => (data) => {
   return Object.keys(filters).every((filterKey) => {
@@ -29,9 +30,34 @@ const DataTable = ({
   rowKey = 'id',
   columns = [],
   customRowStyle,
+  rowsPerPage: defaultRowsPerPage = 20,
+  onChangePage = identity,
+  onChangeFilter = identity,
+  onChangeSorting = identity,
 }) => {
   const [filters, setFilters] = useState({});
   const [sortDirection, setSortDirection] = useState(null);
+  const [{ rowsPerPage, currentPage }, setPagination] = useState({
+    currentPage: 1,
+    rowsPerPage: defaultRowsPerPage,
+  });
+
+  const handleCurrentPage = (page) => {
+    setPagination((prev) => ({ ...prev, currentPage: page }));
+    onChangePage(page);
+  };
+
+  const handleFilter = (filter) => {
+    handleCurrentPage(1);
+    setFilters({ ...filters, ...filter });
+    onChangeFilter({ ...filters, ...filter });
+  };
+
+  const handleSorting = ({ value, key }) => {
+    handleCurrentPage(1);
+    setSortDirection(value ? { key, value } : null);
+    onChangeSorting({ value, key });
+  };
 
   const filteredData = data?.filter(filterStringPredicate(filters));
   const sortedData = sortDirection
@@ -40,6 +66,12 @@ const DataTable = ({
         sortDirection.value,
       )(filteredData)
     : filteredData;
+
+  const lastRow = currentPage * rowsPerPage;
+  const paginatedData = sortedData?.slice(lastRow - rowsPerPage, lastRow);
+
+  const totalRecords = sortedData?.length;
+  const pagesNo = Math.ceil(totalRecords / rowsPerPage);
 
   const isEmptyTable = !isLoading && !filteredData?.length;
 
@@ -52,23 +84,13 @@ const DataTable = ({
               sortDirection={
                 sortDirection?.key === key ? sortDirection.value : null
               }
-              {...(isLoading
-                ? {}
-                : {
-                    onClick: (value) =>
-                      setSortDirection(value ? { key, value } : null),
-                  })}
+              onClick={
+                isLoading ? identity : (value) => handleSorting({ value, key })
+              }
             >
               {label}
             </DataTableLabel>
-            {filter && (
-              <FilterInput
-                onChange={(filter) =>
-                  setFilters((prev) => ({ ...prev, ...filter }))
-                }
-                name={key}
-              />
-            )}
+            {filter && <FilterInput onChange={handleFilter} name={key} />}
           </Box>
         ))}
       </Flex>
@@ -83,7 +105,7 @@ const DataTable = ({
           <Text>Data not found</Text>
         </Flex>
       )}
-      {sortedData?.map((row) => {
+      {paginatedData?.map((row) => {
         return (
           <DataTableRow
             key={row[rowKey]}
@@ -93,6 +115,14 @@ const DataTable = ({
           />
         );
       })}
+
+      {!isLoading && (
+        <DataTablePagination
+          currentPage={currentPage}
+          pagesNo={pagesNo}
+          onChangePage={handleCurrentPage}
+        />
+      )}
     </Box>
   );
 };
@@ -110,6 +140,10 @@ DataTable.propTypes = {
   ),
   data: PropTypes.arrayOf(PropTypes.shape({})),
   isLoading: PropTypes.bool,
+  rowsPerPage: PropTypes.number,
+  onChangePage: PropTypes.func,
+  onChangeFilter: PropTypes.func,
+  onChangeSorting: PropTypes.func,
 };
 
 export default DataTable;
