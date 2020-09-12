@@ -10,8 +10,9 @@ const columns = [
     key: 'scenarioId',
     label: 'Scenario ID',
     flex: 2,
+    filter: true,
   },
-  { key: 'carBuild', label: 'Car Build', flex: 2 },
+  { key: 'carBuild', label: 'Car Build', flex: 2, filter: true },
   {
     key: 'startTime',
     label: 'Start Time',
@@ -29,7 +30,7 @@ const columns = [
   },
   {
     key: 'numberOfStops',
-    label: 'Number of Stops',
+    label: 'Number of Stops / Max Number of Stops',
     format: ({ numberOfStops, maxNumberOfStops }) =>
       `${numberOfStops} / ${maxNumberOfStops}`,
     customCellStyle: ({ numberOfStops, maxNumberOfStops }) =>
