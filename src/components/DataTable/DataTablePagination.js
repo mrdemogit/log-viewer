@@ -6,11 +6,19 @@ const { Flex, Icon, Box, Text } = require('@chakra-ui/core');
 
 const generatePaginationElements = (currentPage, pagesNo) => {
   if (currentPage - 5 < 0) {
-    return [...Array.from({ length: 6 }, (_, i) => i + 1), '...', pagesNo];
+    return [
+      ...Array.from({ length: 6 > pagesNo ? pagesNo : 6 }, (_, i) => i + 1),
+      '...',
+      pagesNo,
+    ];
   }
   if (currentPage + 4 > pagesNo) {
     const start = pagesNo - 5;
-    return [1, '...', ...Array.from({ length: 6 }, (_, i) => i + start)];
+    return [
+      1,
+      '...',
+      ...Array.from({ length: 6 > pagesNo ? pagesNo : 6 }, (_, i) => i + start),
+    ];
   }
   return [
     1,
