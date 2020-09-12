@@ -1,11 +1,11 @@
 import { Box, Heading, Icon } from '@chakra-ui/core';
-import React from 'react';
-import { DataTable } from '@components';
+import React, { useCallback, useState } from 'react';
+import { DataTable, StatisticsPanel } from '@components';
 import { format as formatDate } from 'date-fns';
 import { useSimulations } from '@queries';
-import { msToTime } from './utils';
+import { msToTime, normalizeStatsData } from './utils';
 
-const columns = [
+const columnsDefinition = [
   {
     key: 'scenarioId',
     label: 'Scenario ID',
@@ -44,6 +44,7 @@ const columns = [
   {
     key: 'doesScenarioPass',
     label: 'Does Scenario Pass',
+    // eslint-disable-next-line react/prop-types
     format: ({ doesScenarioPass }) =>
       doesScenarioPass ? (
         <Icon size={5} name="check" color="green.500" />
@@ -53,17 +54,37 @@ const columns = [
   },
 ];
 
+const getStatsData = ({
+  exceedStops = [],
+  exceedTime = [],
+  collisions = [],
+  failed = [],
+}) => [
+  { label: 'Exceed stops', values: exceedStops },
+  { label: 'Exceed running time', values: exceedTime },
+  { label: 'Collisions', values: collisions },
+  { label: 'Fail Rate', values: failed },
+];
+
 const HomePage = () => {
   const { isLoading, data } = useSimulations();
+  const [statsData, setStatsData] = useState(getStatsData({}));
+
+  const handleChangeData = useCallback((data) => {
+    const normalizedValues = normalizeStatsData(data);
+    setStatsData(getStatsData(normalizedValues));
+  }, []);
 
   return (
     <Box>
       <Heading mb={10}>Simulation Runs</Heading>
+      <StatisticsPanel data={statsData} />
       <DataTable
         isLoading={isLoading}
         data={data}
-        columns={columns}
+        columns={columnsDefinition}
         rowKey="startTime"
+        onChangeData={handleChangeData}
         customRowStyle={({ doesScenarioPass }) =>
           doesScenarioPass ? { bg: 'teal.50' } : {}
         }

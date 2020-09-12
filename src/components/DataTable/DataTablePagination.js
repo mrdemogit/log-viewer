@@ -14,6 +14,7 @@ const DataTablePagination = ({ currentPage, pagesNo, onChangePage }) => (
     {
       <Icon
         size={3}
+        data-testid="left-arrow"
         name="arrow-left"
         color={currentPage === 1 && 'gray.400'}
         onClick={
@@ -38,6 +39,7 @@ const DataTablePagination = ({ currentPage, pagesNo, onChangePage }) => (
     {
       <Icon
         size={3}
+        data-testid="right-arrow"
         name="arrow-right"
         color={currentPage === pagesNo && 'gray.400'}
         onClick={

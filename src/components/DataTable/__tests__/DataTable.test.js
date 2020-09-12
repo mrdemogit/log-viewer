@@ -134,7 +134,7 @@ describe('DataTable.js', () => {
     expect(orderedRows4[2]).toHaveTextContent('aextension');
   });
 
-  it('Change pagination', async () => {
+  it('Change pagination - click on numbers', async () => {
     const { getAllByText, getByText } = render(
       <ThemeProvider theme={theme}>
         <DataTable
@@ -169,5 +169,52 @@ describe('DataTable.js', () => {
 
     const orderedRows2 = getAllByText(/extension/i);
     expect(orderedRows2).toHaveLength(1);
+  });
+
+  it('Change pagination - click on arrow', async () => {
+    const { getByTestId, getByText, getAllByText } = render(
+      <ThemeProvider theme={theme}>
+        <DataTable
+          rowKey="col1"
+          rowsPerPage={2}
+          data={[
+            { col1: 'value1', col2: 'b' },
+            { col1: 'test1', col2: 'c' },
+            { col1: 'value3', col2: 'a' },
+          ]}
+          columns={[
+            { label: 'Column1', key: 'col1', filter: true },
+            {
+              label: 'Column2',
+              key: 'col2',
+              format: ({ col2 }) => col2 + 'extension',
+            },
+          ]}
+        />
+      </ThemeProvider>,
+    );
+
+    const orderedRows = getAllByText(/extension/i);
+
+    expect(orderedRows).toHaveLength(2);
+    expect(getByText('1')).toBeInTheDocument();
+    expect(getByText('2')).toBeInTheDocument();
+
+    act(() => {
+      userEvent.click(getByTestId('right-arrow'));
+    });
+
+    const orderedRows2 = getAllByText(/extension/i);
+    expect(orderedRows2).toHaveLength(1);
+
+    act(() => {
+      userEvent.click(getByTestId('left-arrow'));
+    });
+
+    const orderedRows3 = getAllByText(/extension/i);
+
+    expect(orderedRows3).toHaveLength(2);
+    expect(getByText('1')).toBeInTheDocument();
+    expect(getByText('2')).toBeInTheDocument();
   });
 });

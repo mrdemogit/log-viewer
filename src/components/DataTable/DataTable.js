@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Box, Flex, Icon, Spinner, Text } from '@chakra-ui/core';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Box, Flex, Spinner, Text } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
 import FilterInput from './FilterInput';
 import DataTableRow from './DataTableRow';
 import DataTableLabel, { sortDirections } from './DataTableLabel';
-import { sort, identity, descend, ascend, prop } from 'ramda';
+import { isEmpty, sort, identity, descend, ascend, prop } from 'ramda';
 import DataTablePagination from './DataTablePagination';
+import { omit } from 'ramda';
 
 const filterStringPredicate = (filters) => (data) => {
   return Object.keys(filters).every((filterKey) => {
@@ -31,12 +32,14 @@ const DataTable = ({
   columns = [],
   customRowStyle,
   rowsPerPage: defaultRowsPerPage = 20,
+  onChangeData = identity,
   onChangePage = identity,
   onChangeFilter = identity,
   onChangeSorting = identity,
 }) => {
   const [filters, setFilters] = useState({});
   const [sortDirection, setSortDirection] = useState(null);
+
   const [{ rowsPerPage, currentPage }, setPagination] = useState({
     currentPage: 1,
     rowsPerPage: defaultRowsPerPage,
@@ -47,10 +50,13 @@ const DataTable = ({
     onChangePage(page);
   };
 
-  const handleFilter = (filter) => {
+  const handleFilter = ({ name, value }) => {
     handleCurrentPage(1);
-    setFilters({ ...filters, ...filter });
-    onChangeFilter({ ...filters, ...filter });
+    const newFilters = !value
+      ? omit([name], filters)
+      : { ...filters, [name]: value };
+    setFilters(newFilters);
+    onChangeFilter(newFilters);
   };
 
   const handleSorting = ({ value, key }) => {
@@ -59,16 +65,35 @@ const DataTable = ({
     onChangeSorting({ value, key });
   };
 
-  const filteredData = data?.filter(filterStringPredicate(filters));
-  const sortedData = sortDirection
-    ? sortByPropCaseInsensitive(
-        sortDirection.key,
-        sortDirection.value,
-      )(filteredData)
-    : filteredData;
+  const filteredData = useMemo(
+    () => data?.filter(filterStringPredicate(filters)),
+    [data, filters],
+  );
+
+  useEffect(() => {
+    if (!isEmpty(filters)) {
+      onChangeData(filteredData);
+    } else {
+      onChangeData([]);
+    }
+  }, [onChangeData, filteredData, filters]);
+
+  const sortedData = useMemo(
+    () =>
+      sortDirection
+        ? sortByPropCaseInsensitive(
+            sortDirection.key,
+            sortDirection.value,
+          )(filteredData)
+        : filteredData,
+    [filteredData, sortDirection],
+  );
 
   const lastRow = currentPage * rowsPerPage;
-  const paginatedData = sortedData?.slice(lastRow - rowsPerPage, lastRow);
+  const paginatedData = useMemo(
+    () => sortedData?.slice(lastRow - rowsPerPage, lastRow),
+    [lastRow, rowsPerPage, sortedData],
+  );
 
   const totalRecords = sortedData?.length;
   const pagesNo = Math.ceil(totalRecords / rowsPerPage);
@@ -144,6 +169,7 @@ DataTable.propTypes = {
   onChangePage: PropTypes.func,
   onChangeFilter: PropTypes.func,
   onChangeSorting: PropTypes.func,
+  onChangeData: PropTypes.func,
 };
 
 export default DataTable;

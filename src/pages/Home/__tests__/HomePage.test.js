@@ -1,10 +1,11 @@
 import React from 'react';
 import HomePage from '../HomePage';
-import { DataTable } from '@components';
-import { render } from '@testing-library/react';
+import { DataTable, StatisticsPanel } from '@components';
+import { render } from '@testUtils';
 
 jest.mock('@components', () => ({
   DataTable: jest.fn(() => null),
+  StatisticsPanel: jest.fn(() => null),
 }));
 
 jest.mock('@queries', () => ({
@@ -33,6 +34,19 @@ describe('HomePage.js', () => {
         rowKey: 'startTime',
         columns: expect.any(Array),
         customRowStyle: expect.any(Function),
+        onChangeData: expect.any(Function),
+      },
+      {},
+    );
+
+    expect(StatisticsPanel).toHaveBeenCalledWith(
+      {
+        data: [
+          { label: 'Exceed stops', values: [] },
+          { label: 'Exceed running time', values: [] },
+          { label: 'Collisions', values: [] },
+          { label: 'Fail Rate', values: [] },
+        ],
       },
       {},
     );
