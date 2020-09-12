@@ -1,4 +1,4 @@
-[DEMO](https://5f5cdbc81fc05d27e1032dc4--condescending-pike-623557.netlify.app/)
+[DEMO](https://condescending-pike-623557.netlify.app/)
 
 ---
 
