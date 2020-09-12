@@ -4,7 +4,7 @@
 
 ## Notes
 
-- Every reload of page are generated: 1000 simulations and 150 scenarios
+- Every reloads of the page are generated: 1000 simulations and 150 scenarios
 - API is mocked on Frontend side and handled like API call
 - Setup 2 seconds timeout to simulate response time from API
 - Simple flat structure with 2 reusable components and 1 page component
@@ -15,7 +15,7 @@
 - Styled Components + Chakra-UI
 - Themeable
 - Own hooks for fetching data
-- Sorting & Filtering on client side
+- Sorting & Filtering on the client-side
 - 90% Test coverage of base components and hooks
 
 ### Next candidate?
@@ -26,7 +26,6 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 
 - [Available Scripts](#available-scripts)
   - [`yarn start`](#yarn-start)
