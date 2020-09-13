@@ -17,6 +17,7 @@
 - Own hooks for fetching data
 - Sorting & Filtering on the client-side
 - 90% Test coverage of base components and hooks
+- Setup husky, lint-staged, prettier and audit of packages for commit (lint,audit-ci) and push (unit tests)
 
 ### Next candidate?
 
