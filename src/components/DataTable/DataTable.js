@@ -107,7 +107,7 @@ const DataTable = ({
                 sortDirection?.key === key ? sortDirection.value : null
               }
               onClick={
-                isLoading || isEmpty
+                isLoading || isEmptyTable
                   ? identity
                   : (value) => handleSorting({ value, key })
               }
