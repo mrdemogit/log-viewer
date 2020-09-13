@@ -11,7 +11,9 @@ import { omit } from 'ramda';
 const filterStringPredicate = (filters) => (data) => {
   return Object.keys(filters).every((filterKey) => {
     const filterValue = filters[filterKey];
-    return data[filterKey].toLowerCase().includes(filterValue.trim());
+    return data[filterKey]
+      .toLowerCase()
+      .includes(filterValue.toLowerCase().trim());
   });
 };
 
