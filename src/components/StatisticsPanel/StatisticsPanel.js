@@ -44,6 +44,13 @@ const StatisticsPanel = ({ data }) => {
                     </CircularProgressLabel>
                   </CircularProgress>
                   <Box>
+                    <Text
+                      color="gray.500"
+                      fontSize="10px"
+                      textTransform="uppercase"
+                    >
+                      Passed / Failed
+                    </Text>
                     <Text>{`${pass} / ${fail}`}</Text>
                   </Box>
                 </>
