@@ -1,4 +1,12 @@
-import { Box, Heading, Icon } from '@chakra-ui/core';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Heading,
+  Icon,
+} from '@chakra-ui/core';
 import React, { useCallback, useState } from 'react';
 import { DataTable, StatisticsPanel } from '@components';
 import { format as formatDate } from 'date-fns';
@@ -67,7 +75,7 @@ const getStatsPanelData = ({
 ];
 
 const HomePage = () => {
-  const { isLoading, data } = useSimulations();
+  const { isLoading, data, error } = useSimulations();
   const [statsData, setStatsData] = useState(getStatsPanelData({}));
 
   const handleChangeData = useCallback((data) => {
@@ -92,6 +100,17 @@ const HomePage = () => {
             }
           />
         </Box>
+        {error && (
+          <Box position="absolute" bottom={10}>
+            <Alert status="error">
+              <AlertIcon />
+              <AlertTitle mr={2}>
+                There was an error processing your request.
+              </AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          </Box>
+        )}
       </Box>
     </Box>
   );

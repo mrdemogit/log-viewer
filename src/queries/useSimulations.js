@@ -41,6 +41,7 @@ const useSimulations = () => {
         const data = normalizeData(response);
         setData({ data, isLoading: false });
       } catch (e) {
+        console.error(e);
         setData({ error: e, isLoading: false });
       }
     };

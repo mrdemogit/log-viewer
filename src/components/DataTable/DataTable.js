@@ -15,7 +15,7 @@ const filterStringPredicate = (filters) => (data) => {
   });
 };
 
-const sortByPropCaseInsensitive = (key, direction) => {
+const sortByProp = (key, direction) => {
   if (direction === sortDirections.DESC) {
     return sort(descend(prop(key)));
   }
@@ -81,10 +81,7 @@ const DataTable = ({
   const sortedData = useMemo(
     () =>
       sortDirection
-        ? sortByPropCaseInsensitive(
-            sortDirection.key,
-            sortDirection.value,
-          )(filteredData)
+        ? sortByProp(sortDirection.key, sortDirection.value)(filteredData)
         : filteredData,
     [filteredData, sortDirection],
   );
@@ -110,7 +107,9 @@ const DataTable = ({
                 sortDirection?.key === key ? sortDirection.value : null
               }
               onClick={
-                isLoading ? identity : (value) => handleSorting({ value, key })
+                isLoading || isEmpty
+                  ? identity
+                  : (value) => handleSorting({ value, key })
               }
             >
               {label}
