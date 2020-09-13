@@ -143,7 +143,7 @@ const DataTable = ({
         );
       })}
 
-      {!isLoading && (
+      {!isLoading && !isEmptyTable && (
         <DataTablePagination
           currentPage={currentPage}
           pagesNo={pagesNo}
