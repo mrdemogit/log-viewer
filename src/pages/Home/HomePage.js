@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { DataTable, StatisticsPanel } from '@components';
 import { format as formatDate } from 'date-fns';
 import { useSimulations } from '@queries';
-import { msToTime, normalizeStatsData } from './utils';
+import { msToTime, prepareStatsData } from './utils';
 
 const columnsDefinition = [
   {
@@ -54,7 +54,7 @@ const columnsDefinition = [
   },
 ];
 
-const getStatsData = ({
+const getStatsPanelData = ({
   exceedStops = [],
   exceedTime = [],
   collisions = [],
@@ -68,11 +68,11 @@ const getStatsData = ({
 
 const HomePage = () => {
   const { isLoading, data } = useSimulations();
-  const [statsData, setStatsData] = useState(getStatsData({}));
+  const [statsData, setStatsData] = useState(getStatsPanelData({}));
 
   const handleChangeData = useCallback((data) => {
-    const normalizedValues = normalizeStatsData(data);
-    setStatsData(getStatsData(normalizedValues));
+    const normalizedValues = prepareStatsData(data);
+    setStatsData(getStatsPanelData(normalizedValues));
   }, []);
 
   return (

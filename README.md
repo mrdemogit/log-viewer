@@ -4,7 +4,7 @@
 
 ## Notes
 
-- Every reloads of the page are generated: 1000 simulations and 150 scenarios
+- Every reload of the page are generated: 1000 simulations and 150 scenarios
 - API is mocked on Frontend side and handled like API call
 - Setup 2 seconds timeout to simulate response time from API
 - Simple flat structure with 2 reusable components and 1 page component

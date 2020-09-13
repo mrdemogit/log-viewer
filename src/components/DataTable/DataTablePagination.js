@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { identity } from 'ramda';
-
-const { Flex, Icon, Box, Text } = require('@chakra-ui/core');
+import { Flex, Icon, Box, Text } from '@chakra-ui/core';
 
 const generatePaginationElements = (currentPage, pagesNo) => {
   if (pagesNo < 10) {

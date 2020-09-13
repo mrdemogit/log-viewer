@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Box, Flex, Spinner, Text } from '@chakra-ui/core';
+import { Box, Flex, Skeleton, Text } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
 import FilterInput from './FilterInput';
 import DataTableRow from './DataTableRow';
@@ -121,9 +121,11 @@ const DataTable = ({
       </Flex>
 
       {isLoading && (
-        <Flex justifyContent="center" alignItems="center">
-          <Spinner data-testid="spinner" size="xl" />
-        </Flex>
+        <Box w="full" data-testid="skeleton-loader">
+          {Array.from(Array(5).keys()).map((i) => (
+            <Skeleton key={i} height="30px" my="10px" />
+          ))}
+        </Box>
       )}
       {isEmptyTable && (
         <Flex justifyContent="center" alignItems="center">

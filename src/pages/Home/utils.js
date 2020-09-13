@@ -14,7 +14,7 @@ const pad = (n, z) => {
   return ('00' + n).slice(-z);
 };
 
-export const normalizeStatsData = (data = []) => {
+export const prepareStatsData = (data = []) => {
   const defaultState = {
     exceedStops: [0, 0],
     exceedTime: [0, 0],

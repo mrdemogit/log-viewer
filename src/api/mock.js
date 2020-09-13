@@ -20,12 +20,14 @@ const dataGenerator = ({
   return {
     generate: () => {
       if (data) {
-        console.debug('Data retrieved from cache');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Data retrieved from cache');
+        }
         return data;
       }
 
       if (process.env.NODE_ENV === 'development') {
-        console.debug('Generating data sets...');
+        console.log('Generating data sets...');
       }
 
       const carBuilds = generateCarBuilds({ count: carBuildsCount });
@@ -49,7 +51,6 @@ const dataGenerator = ({
       }
 
       if (process.env.NODE_ENV === 'development') {
-        console.log(dataGenerator());
         console.log(
           `Generated: ${simulationRuns.length} simulations; ${scenarios.length} scenarios`,
         );

@@ -20,7 +20,7 @@ describe('DataTable.js', () => {
   it('Render loading', async () => {
     const { getByTestId } = render(<DataTable isLoading={true} />);
 
-    expect(getByTestId('spinner')).toBeInTheDocument();
+    expect(getByTestId('skeleton-loader')).toBeInTheDocument();
   });
 
   it('Renders datatable with right data', async () => {
