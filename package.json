@@ -111,7 +111,8 @@
       "@components(.*)": "<rootDir>/src/components$1",
       "@api": "<rootDir>/src/api/index.js",
       "@queries": "<rootDir>/src/queries/index.js",
-      "@testUtils": "<rootDir>/src/testUtils.js"
+      "@testUtils": "<rootDir>/src/testUtils.js",
+      "@hooks": "<rootDir>/src/hooks/index.js"
     }
   }
 }

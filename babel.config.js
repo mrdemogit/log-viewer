@@ -18,6 +18,7 @@ module.exports = {
           '@queries': './src/queries',
           '@routes': './src/routes',
           '@testUtils': './src/testUtils',
+          '@hooks': './src/hooks',
         },
       },
     ],

@@ -78,18 +78,20 @@ const HomePage = () => {
   return (
     <Box>
       <Heading mb={10}>Simulation Runs</Heading>
-      <Box minWidth="800px">
-        <StatisticsPanel data={statsData} />
-        <DataTable
-          isLoading={isLoading}
-          data={data}
-          columns={columnsDefinition}
-          rowKey="startTime"
-          onChangeData={handleChangeData}
-          customRowStyle={({ doesScenarioPass }) =>
-            doesScenarioPass ? { bg: 'teal.50' } : {}
-          }
-        />
+      <StatisticsPanel data={statsData} />
+      <Box overflowX="auto">
+        <Box minWidth="800px">
+          <DataTable
+            isLoading={isLoading}
+            data={data}
+            columns={columnsDefinition}
+            rowKey="startTime"
+            onChangeData={handleChangeData}
+            customRowStyle={({ doesScenarioPass }) =>
+              doesScenarioPass ? { bg: 'teal.50' } : {}
+            }
+          />
+        </Box>
       </Box>
     </Box>
   );

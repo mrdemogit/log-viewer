@@ -7,10 +7,12 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/core';
+import { useWindowSize } from '@hooks';
 
 const StatisticsPanel = ({ data }) => {
+  const { isMobile } = useWindowSize();
   return (
-    <Flex>
+    <Flex flexWrap="wrap">
       {data?.map(({ label, values }, idx) => {
         const [pass, fail] = values;
         const total = pass + fail;
@@ -21,11 +23,12 @@ const StatisticsPanel = ({ data }) => {
             key={label}
             height="120px"
             bg="white"
-            mr={idx !== data.length && 2}
-            ml={idx !== 0 && 2}
+            mr={!isMobile && idx !== data.length && 2}
+            ml={!isMobile && idx !== 0 && 2}
             mb={10}
             borderRadius="md"
             p={2}
+            minWidth={isMobile ? 'full' : 150}
           >
             <Text fontSize="xs" color="gray.500">
               {label}
